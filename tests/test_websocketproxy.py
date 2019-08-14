@@ -77,7 +77,7 @@ class ProxyRequestHandlerTestCase(unittest.TestCase):
         self.stubs = stubout.StubOutForTesting()
         self.handler = websocketproxy.ProxyRequestHandler(
             FakeSocket(''), "127.0.0.1", FakeServer())
-        self.handler.path = "https://localhost:6080/websockify?token=blah"
+        self.handler.path = "https://localhost:8080/websockify?token=blah"
         self.handler.headers = None
         self.stubs.Set(websockifyserver.WebSockifyServer, 'socket',
                        staticmethod(lambda *args, **kwargs: None))
@@ -136,7 +136,7 @@ class ProxyRequestHandlerTestCase(unittest.TestCase):
             key.import_from_pem(private_key)
             jwt_token = jwt.JWT({"alg": "RS256"}, {'host': "remote_host", 'port': "remote_port"})
             jwt_token.make_signed_token(key)
-            self.handler.path = "https://localhost:6080/websockify?token={jwt_token}".format(jwt_token=jwt_token.serialize())
+            self.handler.path = "https://localhost:8080/websockify?token={jwt_token}".format(jwt_token=jwt_token.serialize())
 
             self.stubs.Set(websocketproxy.ProxyRequestHandler, 'send_auth_error',
                         staticmethod(lambda *args, **kwargs: None))
